@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Satin Heritage</title>
+    <style>
+        :root {
+            --primary-green: #2d5a27;
+            --light-green: #e8f5e9;
+            --accent-green: #4caf50;
+            --white: #ffffff;
+            --text-dark: #1b3022;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background-color: var(--light-green);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Authentication Section */
+        #auth-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .auth-card {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+            border-top: 5px solid var(--primary-green);
+        }
+
+        h2 {
+            color: var(--primary-green);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary-green);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: var(--accent-green);
+        }
+
+        /* Main Content */
+        #main-content {
+            display: none;
+        }
+
+        nav {
+            background: var(--primary-green);
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            margin: 0 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        section {
+            background: var(--white);
+            margin: 40px 0;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .history-text {
+            text-align: justify;
+            font-size: 1.1rem;
+            color: var(--text-dark);
+        }
+
+        /* Points System */
+        .points-display {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-green);
+            margin: 20px 0;
+        }
+
+        .progress-bar {
+            background: #eee;
+            height: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        #progress-fill {
+            background: var(--accent-green);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s;
+        }
+
+        #redeem-button {
+            background-color: var(--accent-green);
+            display: none; /* Hidden by default */
+            margin-top: 15px;
+        }
+        #redeem-button:hover {
+            background-color: var(--primary-green);
+        }
+
+        footer {
+            background: var(--primary-green);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            margin-top: 60px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Authentication -->
+    <div id="auth-section">
+        <div class="auth-card" id="login-form">
+            <h2>Satin Heritage Login</h2>
+            <input type="text" id="user-id" placeholder="Username">
+            <input type="password" id="pass-id" placeholder="Password">
+            <button onclick="login()">Login</button>
+            <p style="text-align: center;">Don't have an account? <a href="#" onclick="toggleAuth()" style="color: var(--primary-green);">Create Account</a></p>
+        </div>
+
+        <div class="auth-card" id="signup-form" style="display: none;">
+            <h2>Create Account</h2>
+            <input type="text" id="new-user" placeholder="Choose Username">
+            <input type="email" id="new-email" placeholder="Email Address">
+            <input type="password" id="new-pass" placeholder="Create Password">
+            <button onclick="signup()">Sign Up</button>
+            <p style="text-align: center;">Already have an account? <a href="#" onclick="toggleAuth()" style="color: var(--primary-green);">Login</a></p>
+        </div>
+    </div>
+
+    <!-- Main Website -->
+    <div id="main-content">
+        <nav>
+            <ul>
+                <li><a href="#history">History</a></li>
+                <li><a href="#rewards">Rewards</a></li>
+                <li><a href="#feedback">Feedback</a></li>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#" onclick="logout()">Logout</a></li>
+            </ul>
+        </nav>
+
+        <div class="container">
+            <section id="history">
+                <h2>Our Culinary Heritage</h2>
+                <div class="history-text">
+                    Pisasati is far more than a traditional dish from Mindanao; it is a sacred culinary thread that binds the Maranao people to their ancestral history and communal identity. Rooted in the heart of Lanao, this delicacy serves as a living artifact of Kaporokada (togetherness), representing a deep sense of care and respect that is passed down through generations from elders to the youth. The preparation of Pisasati is a rhythmic ritual that begins with Tulingan (bullet tuna), a foundation that honors the ancient preservation methods used to sustain families across the Lanao region. This smoky base is expertly folded with freshly grated coconut, which provides a subtle sweetness and a textured bite that reflects the natural bounty of the land. The true "spirit" of the dish, however, lies in the inclusion of Palapa-the iconic Maranao condiment made from sakurab (native scallions), ginger, and bird's eye chili-which infuses the mixture with a sharp, aromatic heat. These ingredients are bound together and fried into golden, flavor-dense portions, maintaining their natural, earthy tones. Whether enjoyed as a humble accompaniment to rice or served as a centerpiece during a grand Kanduri (feast), Pisasati remains a heartfelt symbol of Maranao resilience, ensuring that as long as the recipe is shared, the rich heritage and social fabric of the "People of the Lake" will continue to thrive.
+                </div>
+            </section>
+
+            <section id="rewards">
+                <h2>Heritage Rewards</h2>
+                <p>Scan your QR code at our physical locations to earn points. 1 Scan = 1 Point. Collect 10 points for a free meal!</p>
+                <div class="points-display">Current Points: <span id="points-count">0</span></div>
+                <div class="progress-bar">
+                    <div id="progress-fill"></div>
+                </div>
+                <button onclick="addPoint()">I Scanned the QR</button>
+                <button id="redeem-button" onclick="redeemMeal()">Redeem Free Meal</button>
+                <p id="reward-status" style="text-align: center; margin-top: 10px; font-weight: bold;"></p>
+            </section>
+
+            <section id="feedback">
+                <h2>Share Your Experience</h2>
+                <form onsubmit="event.preventDefault(); alert('Thank you for sharing your story!');">
+                    <label>Upload a Picture of your Pisasati:</label>
+                    <input type="file" accept="image/*">
+                    <label>Your Story/Experience:</label>
+                    <textarea rows="5" placeholder="Tell us about your journey with our flavors..."></textarea>
+                    <button type="submit">Submit Feedback</button>
+                </form>
+            </section>
+        </div>
+
+        <footer id="about">
+            <div class="container">
+                <h2>About Us</h2>
+                <p>Satin Heritage is dedicated to preserving and celebrating the rich culinary traditions of the Maranao people. Our mission is to bridge the gap between ancient flavors and modern palates, ensuring that the essence of Lanao continues to inspire and nourish. We believe that every dish tells a story of resilience, community, and love.</p>
+                <p>&copy; 2024 Satin Heritage. All Rights Reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        let points = 0;
+        let accounts = []; // In a real application, this would be stored securely on a server.
+
+        // --- Authentication Functions ---
+        function toggleAuth() {
+            const loginForm = document.getElementById('login-form');
+            const signupForm = document.getElementById('signup-form');
+            if (loginForm.style.display === 'none') {
+                loginForm.style.display = 'block';
+                signupForm.style.display = 'none';
+            } else {
+                loginForm.style.display = 'none';
+                signupForm.style.display = 'block';
+            }
+        }
+
+        function signup() {
+            const user = document.getElementById('new-user').value.trim();
+            const email = document.getElementById('new-email').value.trim();
+            const pass = document.getElementById('new-pass').value.trim();
+
+            if (!user || !email || !pass) {
+                alert('Please fill in all fields.');
+                return;
+            }
+
+            // Basic check if username already exists
+            if (accounts.some(a => a.user === user)) {
+                alert('Username already taken. Please choose another.');
+                return;
+            }
+
+            accounts.push({ user, email, pass });
+            alert('Account created successfully! Please login.');
+            toggleAuth(); // Switch back to login form
+            // Clear signup form fields
+            document.getElementById('new-user').value = '';
+            document.getElementById('new-email').value = '';
+            document.getElementById('new-pass').value = '';
+        }
+
+        function login() {
+            const user = document.getElementById('user-id').value.trim();
+            const pass = document.getElementById('pass-id').value.trim();
+
+            const foundAccount = accounts.find(a => a.user === user && a.pass === pass);
+
+            if (foundAccount) {
+                document.getElementById('auth-section').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+                updatePointsDisplay(); // Ensure points are displayed correctly on login
+            } else {
+                alert('Invalid credentials. Only accounts created on this site are accepted.');
+            }
+        }
+
+        function logout() {
+            document.getElementById('auth-section').style.display = 'flex';
+            document.getElementById('main-content').style.display = 'none';
+            points = 0; // Reset points on logout
+            updatePointsDisplay(); // Update display
+            // Clear login form fields
+            document.getElementById('user-id').value = '';
+            document.getElementById('pass-id').value = '';
+        }
+
+        // --- Points System Functions ---
+        function addPoint() {
+            if (points < 10) {
+                points++;
+                updatePointsDisplay();
+            }
+        }
+
+        function redeemMeal() {
+            if (points >= 10) {
+                points = 0; // Reset points
+                updatePointsDisplay();
+                document.getElementById('reward-status').innerText = "Please claim your free meal at the store.";
+                document.getElementById('reward-status').style.color = "var(--primary-green)";
+                document.getElementById('redeem-button').style.display = 'none'; // Hide redeem button after redemption
+            }
+        }
+
+        function updatePointsDisplay() {
+            document.getElementById('points-count').innerText = points;
+            const progressFill = document.getElementById('progress-fill');
+            const fillPercentage = (points / 10) * 100;
+            progressFill.style.width = fillPercentage + '%';
+
+            const redeemButton = document.getElementById('redeem-button');
+            const rewardStatus = document.getElementById('reward-status');
+
+            if (points >= 10) {
+                redeemButton.style.display = 'block'; // Show redeem button
+                rewardStatus.innerText = "You have enough points for a free meal!";
+                rewardStatus.style.color = "var(--accent-green)";
+            } else {
+                redeemButton.style.display = 'none'; // Hide redeem button if points < 10
+                // Only clear status if it's not the "claim your meal" message
+                if (rewardStatus.innerText !== "Please claim your free meal at the store.") {
+                    rewardStatus.innerText = "";
+                }
+            }
+        }
+
+        // Initialize points display when the page loads after login
+        document.addEventListener('DOMContentLoaded', () => {
+            // This ensures that if the user logs in, the points display is updated.
+            // If you were to persist points between sessions, you'd load them here.
+            updatePointsDisplay();
+        });
+
+    </script>
+</body>
+</html>
